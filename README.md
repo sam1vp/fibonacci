@@ -13,4 +13,4 @@
     151.closest_fibonacci #=> 144, the first fibonacci number below your fixnum
 
 Now go get your fibonacci on. 
-[Golden Ratio Woot]('http://www.world-mysteries.com/sci_1711.gif')
+<img src='http://www.world-mysteries.com/sci_1711.gif' alt="Golden Ratio Woot"/>
