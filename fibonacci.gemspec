@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fibonacci}
-  s.version = "0.1.0"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sam Gilbert"]
@@ -13,7 +13,8 @@ Gem::Specification.new do |s|
   s.description = %q{Adds closest_fibonacci, which finds the closest fibonacci number below the receiving fixnum}
   s.email = %q{sgilbert@barbariangroup.com}
   s.extra_rdoc_files = [
-    "LICENSE.txt"
+    "LICENSE.txt",
+    "README.md"
   ]
   s.files = [
     ".document",
@@ -21,8 +22,10 @@ Gem::Specification.new do |s|
     "Gemfile.lock",
     "LICENSE.txt",
     "QUIZ.md",
+    "README.md",
     "Rakefile",
     "VERSION",
+    "fibonacci.gemspec",
     "lib/fibonacci.rb",
     "spec/fibonacci_spec.rb"
   ]
