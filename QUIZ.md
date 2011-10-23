@@ -1,6 +1,6 @@
-##Define “metaprogramming”. Where would you want to use it, and what are the downsides of using it (if any)? 
+##Define “metaprogramming.” Where would you want to use it, and what are the downsides of using it (if any)? 
 
-Put simply, metaprogramming is writing code that writes code (definition care of _why, who manages to put everything simply). One of the things that makes ruby cool/sometimes maddening is that it allows you to modify your code at runtime, and gives you all kinds of interesting methods to do so. Here are a few things I find metaprogramming useful for: 
+Put simply, metaprogramming is writing code that writes code. One of the things that makes ruby cool/sometimes maddening is that it allows you to modify your code at runtime, and gives you all kinds of interesting methods to do so. Here are a few things I find metaprogramming useful for: 
 
 * DRYing up your code (e.g. attr_accessor dynamically adds reader and writer methods so you don't have to define them again and again)
 * Sharing methods with a class when single inheritance just isn't flexible enough (e.g. basically anytime you use a module mix-in ever)
@@ -9,11 +9,11 @@ Put simply, metaprogramming is writing code that writes code (definition care of
 But in general, I try to only use metaprogramming when it's absolutely necessary, because: 
 
 * It's harder to read and debug. You can do some wild stuff if you start passing around bindings and sprinkling your code with `self` references, but this can really mess with another coder's expectations and lead to errors that are difficult to track down.  
-* It compromises your encapsulation. Defining methods and directly calling variables from outside of a class seems like a great idea until you decide to refactor the class.
+* It compromises your encapsulation. Defining methods and directly calling variables from outside of a class seems like a great idea until you need to refactor the class.
 
 ##Give an example of a framework or a plugin that uses metaprogramming.  Please describe how this framework uses metaprogramming and what it changes.
 
-Rails relies heavily on metaprogramming pretty much throughout the codebase and gives it much of its unique character. I love that in so many aspects of the framework you can call a simple method with an options hash and--thanks to some metaprogramming magic--quickly add some crazy new functionality to your application. 
+Rails relies heavily on metaprogramming pretty much throughout the codebase. Metaprogramming gives rails much of its unique character. I love that in so many aspects of the framework you can call a simple method with an options hash and--thanks to some metaprogramming magic under the hood--quickly add some crazy new functionality to your application. 
 
 In activerecord, for example, metaprogramming is used for callbacks, validations, and associations, among other things. So with associations, when you do this: 
 
@@ -40,7 +40,7 @@ The 'has_many' method will, after doing some other stuff, call this method:
 
       ...
 
-Here, reflection is an object that's been instantiatied with the :followers symbol as an argument, so this method defines a 'followers' method which will return an array of Follower activerecord objects (retrieved by way of some other code and assigned here to the 'association' local variable). 
+Here, `reflection` is an object that's been instantiatied with a 'name' attribute based on the `:followers` symbol from your code, so this method defines a 'followers' method which will return an array of Follower activerecord objects (retrieved by way of some other code and assigned here to the `association` local variable). 
 
 In this way, has_many dynamically defines 'followers' and 20 or so other helper methods specific to the has many association you've declared. 
 
@@ -57,11 +57,11 @@ Monkeypatching the standard library can be handy sometimes, but it definitely me
 If another developer doesn't know any better, they might assume this method is part of the standard library when they see it used in code, and will waste a lot of time searching out the documentation or fixing any problems the modified method creates. My rules for modifying the standard library: 
 
 * Make sure the method belongs there. If it's not relevant to all Strings, for example, maybe I should create a SpecialString class that inherits from String. 
-* Keep it simple; if it's not a totally encapsulated method with relatively simple logic, put it elsewhere. 
-* Make it very clear that extensions are being used by putting them in a single 'extensions.rb' file or something like that. 
+* Keep it simple. If it's not a totally encapsulated method with relatively simple logic, put it elsewhere. 
+* Make it very clear that you've extended these classes. I typically put all extensions into a single 'extensions' file/folder, require the file near to where it's being used, and add a comment to places where and extension method is called. 
 
-##Is it more important to write automated test suits in Ruby than, for example, in Java or C++? Explain.
+##Is it more important to write automated test suites in Ruby than, for example, in Java or C++? Explain.
 
 Granted I haven't worked much with Java or C++, but yes, I believe so. Ruby is a dynamic language--both in the sense of having dynamic typing and enabling metaprogramming practices--and a lot of things are implicit that must be explicitly declared in other languages. These features allow for quick and flexible coding, but they also allow for bugs that you wouldn't typically see in other languages. Good testing helps you quickly catch bugs related to variable typing, for example. 
 
-More importantly, Ruby lends itself to a particular style of programming that involves quick scripting followed by heavy refactoring. Testing is an essential counterpart to that style--it gives a focus to your quick scripting when you're answering a failing unit test, and it gives you confidence when you refactor knowing that accidental changes to functioning will be caught by tests. 
+More importantly, Ruby lends itself to a particular style of programming that involves quick scripting followed by heavy refactoring. Testing is an essential counterpart to that style--it gives a focus to your quick scripting when you're answering a failing unit test, and it gives you confidence when you refactor because accidental changes to functioning will be caught by tests. 
